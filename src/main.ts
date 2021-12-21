@@ -9,7 +9,7 @@ canvas.style.marginTop = "2vh";
 canvas.style.marginBottom = "2vh";
 let ctx = canvas.getContext("2d");
 
-let sim = new Sim(10);
+let sim = new Sim(50);
 sim.setContext(ctx);
 
 window.requestAnimationFrame(() => sim.step());

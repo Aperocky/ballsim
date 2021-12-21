@@ -25,7 +25,8 @@ export class Sim {
     }
 
     step() {
-        this.ctx.clearRect(0, 0, Constant.X_SIZE, Constant.Y_SIZE);
+        this.ctx.fillStyle = '#AAAAAA';
+        this.ctx.fillRect(0, 0, Constant.X_SIZE, Constant.Y_SIZE);
         BallMath.move(this.balls);
         BallMath.collide(this.balls);
         this.draw();

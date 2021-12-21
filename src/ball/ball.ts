@@ -11,21 +11,27 @@ export type BallPhysic = {
 
 function getRandomBallPhysic(): BallPhysic {
     return {
-        x: (0.5 + Math.random()*0.5) * Constant.X_SIZE,
-        y: (0.5 + Math.random()*0.5) * Constant.Y_SIZE,
+        x: (0.1 + Math.random()*0.8) * Constant.X_SIZE,
+        y: (0.1 + Math.random()*0.8) * Constant.Y_SIZE,
         vx: (Math.random() - 0.5) * Constant.V_DEFAULT,
         vy: (Math.random() - 0.5) * Constant.V_DEFAULT,
         m: 1,
-        r: 5
+        r: 10
     }
 }
 
 export class Ball {
 
     phys: BallPhysic;
+    hurt: number;
 
-    constructor() {
-        this.phys = getRandomBallPhysic();
+    constructor(phys?: BallPhysic) {
+        if (phys == null) {
+            this.phys = getRandomBallPhysic();
+        } else {
+            this.phys = phys;
+        }
+        this.hurt = 0;
     }
 
     draw(ctx) {
@@ -35,5 +41,12 @@ export class Ball {
         ctx.closePath();
         ctx.fillStyle = "red";
         ctx.fill();
+
+        if (this.hurt > 0) {
+            ctx.lineWidth = this.hurt;
+            ctx.strokeStyle = "yellow";
+            ctx.stroke();
+            this.hurt -= 1;
+        }
     }
 }
