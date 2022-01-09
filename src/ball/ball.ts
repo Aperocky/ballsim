@@ -20,10 +20,25 @@ function getRandomBallPhysic(): BallPhysic {
     }
 }
 
+function getSimAddBallPhysics(): BallPhysic {
+    return {
+        x: 0.1 * Constant.X_SIZE,
+        y: 0.1 * Constant.Y_SIZE,
+        vx: (Math.random() * 0.5) * Constant.V_DEFAULT,
+        vy: (Math.random() * 0.5) * Constant.V_DEFAULT,
+        m: 1,
+        r: 10
+    }
+}
+
 export class Ball {
 
     phys: BallPhysic;
     hurt: number;
+
+    static getSimBall(): Ball {
+        return new Ball(getSimAddBallPhysics());
+    }
 
     constructor(phys?: BallPhysic) {
         if (phys == null) {

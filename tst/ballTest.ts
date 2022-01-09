@@ -22,6 +22,12 @@ describe('ball', () => {
         expect(p.x - xprev - p.vx).to.be.closeTo(0, 0.0001);
     });
 
+    it('ball:getSimBall', () => {
+        let ball = Ball.getSimBall();
+        expect(ball.phys.x).to.equal(Constant.X_SIZE * 0.1);
+        expect(ball.phys.vx).to.be.above(0);
+    });
+
     it('ball:bounceOffWall', () => {
         let phys: BallPhysic = {
             x: Constant.X_SIZE - 6,

@@ -7,4 +7,11 @@ describe('sim', () => {
         let sim = new Sim(3);
         expect(sim.balls.length).to.equal(3);
     });
+
+    it('sim:removeBall', () => {
+        let sim = new Sim(3);
+        expect(sim.balls.length).to.equal(3);
+        sim.removeBall();
+        expect(sim.balls.length).to.equal(2);
+    });
 });

@@ -25,19 +25,32 @@
         #main-container {
             min-height: 90vh;
         }
+        #control-panel {
+            margin-top: 4vh;
+        }
+        button {
+            margin: 10px;
+        }
     </style>
 </head>
 
 <body>
 <div class="container" id="main-container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <canvas class="canvas" id="canvas"/>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
+            <div class="row" id="control-panel">
+            <button class="btn btn-primary" id="addbtn">ADD</button>
+            <button class="btn btn-primary" id="removebtn">REMOVE</button>
+            </div>
+            <div class="row" id="showbiz">
+            </div>
         </div>
     </div>
 </div>
+
 <footer class="py-5 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">Copyleft &copy; Rocky Li</p>
@@ -46,4 +59,3 @@
 </body>
     <script type="module" src="script.min.js"></script>
 </html>
-

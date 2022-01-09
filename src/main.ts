@@ -1,4 +1,5 @@
 import { Sim } from './sim';
+import { setControl } from './display';
 import * as Constant from './constants';
 
 let canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -11,5 +12,6 @@ let ctx = canvas.getContext("2d");
 
 let sim = new Sim(50);
 sim.setContext(ctx);
+setControl(sim);
 
 window.requestAnimationFrame(() => sim.step());
