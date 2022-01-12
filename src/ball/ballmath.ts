@@ -63,7 +63,7 @@ export class BallMath {
 
     static collide(balls: Ball[]): void {
         let plist = balls.map(b => b.phys);
-        let pairs = CollisionDetection.naive(plist);
+        let pairs = CollisionDetection.cellular(plist);
         pairs.forEach(pair => {
             bounceOffOther(plist[pair[0]], plist[pair[1]]);
             balls[pair[0]].hurt += 5;

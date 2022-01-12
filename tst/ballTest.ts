@@ -3,6 +3,22 @@ import * as Constant from '../src/constants';
 import { expect } from 'chai';
 import { BallMath } from '../src/ball/ballmath';
 
+export function getRandomBallPhysic(): BallPhysic {
+    let x = Math.random() * Constant.X_SIZE;
+    let y = Math.random() * Constant.Y_SIZE;
+    let vx = (Math.random() - 0.5) * Constant.V_DEFAULT;
+    let vy = (Math.random() - 0.5) * Constant.V_DEFAULT;
+    let phys: BallPhysic = {
+        x: x,
+        y: y,
+        vx: vx,
+        vy: vy,
+        m: 1,
+        r: 5
+    }
+    return phys;
+}
+
 describe('ball', () => {
     it('ball:initiation', () => {
         let ball = new Ball();
