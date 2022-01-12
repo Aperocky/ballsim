@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Rocky Li">
 
-    <title>Title Here</title>
+    <title>Ball Tank</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
@@ -31,21 +31,35 @@
         button {
             margin: 10px;
         }
+        td {
+            width: 40%;
+        }
     </style>
 </head>
 
 <body>
 <div class="container" id="main-container">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-9">
             <canvas class="canvas" id="canvas"/>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="row" id="control-panel">
             <button class="btn btn-primary" id="addbtn">ADD</button>
             <button class="btn btn-primary" id="removebtn">REMOVE</button>
+            <button class="btn btn-danger" id="resetbtn">RESTART</button>
             </div>
             <div class="row" id="showbiz">
+                <table class="table table-striped" id="showtable">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Data</th>
+                      </tr>
+                    </thead>
+                    <tbody id="data-area">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

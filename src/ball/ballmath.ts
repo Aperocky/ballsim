@@ -61,14 +61,19 @@ export class BallMath {
         });
     }
 
-    static collide(balls: Ball[]): void {
+    static collide(balls: Ball[]): number {
         let plist = balls.map(b => b.phys);
         let pairs = CollisionDetection.cellular(plist);
         pairs.forEach(pair => {
             bounceOffOther(plist[pair[0]], plist[pair[1]]);
             balls[pair[0]].hurt += 5;
             balls[pair[1]].hurt += 5;
+            balls[pair[0]].collided = true;
+            balls[pair[1]].collided = true;
+            balls[pair[0]].getSpeed();
+            balls[pair[1]].getSpeed();
         });
+        return pairs.length;
     }
 }
 

@@ -35,6 +35,8 @@ export class Ball {
 
     phys: BallPhysic;
     hurt: number;
+    collided: boolean;
+    speed: number;
 
     static getSimBall(): Ball {
         return new Ball(getSimAddBallPhysics());
@@ -47,6 +49,7 @@ export class Ball {
             this.phys = phys;
         }
         this.hurt = 0;
+        this.getSpeed();
     }
 
     draw(ctx) {
@@ -63,5 +66,12 @@ export class Ball {
             ctx.stroke();
             this.hurt -= 1;
         }
+        this.collided = false;
+    }
+
+    getSpeed(): void {
+        let vx = this.phys.vx;
+        let vy = this.phys.vy;
+        this.speed = Math.pow(vx*vx + vy*vy, 0.5);
     }
 }
