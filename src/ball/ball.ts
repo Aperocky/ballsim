@@ -1,4 +1,5 @@
 import * as Constant from '../constants';
+import { LEVELS } from './levels';
 
 export type BallPhysic = {
     x: number;
@@ -37,12 +38,16 @@ export class Ball {
     hurt: number;
     collided: boolean;
     speed: number;
+    level: number;
+    exp: number;
 
     static getSimBall(): Ball {
         return new Ball(getSimAddBallPhysics());
     }
 
     constructor(phys?: BallPhysic) {
+        this.level = 0;
+        this.exp = 0;
         if (phys == null) {
             this.phys = getRandomBallPhysic();
         } else {
@@ -57,7 +62,7 @@ export class Ball {
         ctx.beginPath();
         ctx.arc(this.phys.x, this.phys.y, this.phys.r, 0, 2*Math.PI, true);
         ctx.closePath();
-        ctx.fillStyle = "red";
+        ctx.fillStyle = LEVELS[this.level].color;
         ctx.fill();
 
         if (this.hurt > 0) {
@@ -67,6 +72,18 @@ export class Ball {
             this.hurt -= 1;
         }
         this.collided = false;
+    }
+
+    expAndLevel(): void {
+        this.exp += this.hurt * this.speed;
+        if (this.level + 1 < LEVELS.length) {
+            let expThresh = LEVELS[this.level + 1].exp;
+            if (this.exp > expThresh) {
+                this.level += 1;
+                this.phys.m = LEVELS[this.level].mass;
+                this.phys.r = LEVELS[this.level].radius;
+            }
+        }
     }
 
     getSpeed(): void {

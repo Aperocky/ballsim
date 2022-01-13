@@ -23,6 +23,15 @@ function bounceOffOther(a: BallPhysic, b: BallPhysic): void {
     // https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects
     let dx = a.x - b.x;
     let dy = a.y - b.y;
+
+    if (dx == 0 && dy == 0) {
+        // On rare occasions where this happen, don't do anything and let the balls fly apart.
+        // This is possible because balls over both x and y edge at the same time
+        // with the same radius will be dragged back to the same center location.
+        console.log("Duplicate Center Location");
+        return;
+    }
+
     let sqdist = dx * dx + dy * dy;
     let dvx = a.vx - b.vx;
     let dvy = a.vy - b.vy;
@@ -33,10 +42,10 @@ function bounceOffOther(a: BallPhysic, b: BallPhysic): void {
     let bms = 2 * b.m / (a.m + b.m);
     let vds = vddot / sqdist;
 
-    a.vx = a.vx - ams * vds * dx;
-    a.vy = a.vy - ams * vds * dy;
-    b.vx = b.vx + bms * vds * dx;
-    b.vy = b.vy + bms * vds * dy;
+    a.vx = a.vx - bms * vds * dx;
+    a.vy = a.vy - bms * vds * dy;
+    b.vx = b.vx + ams * vds * dx;
+    b.vy = b.vy + ams * vds * dy;
 
     let dist = sqdist ** 0.5;
     a.x -= (1 - (a.r + b.r)/dist) * dx / 2;
@@ -61,6 +70,15 @@ export class BallMath {
         });
     }
 
+    static decline(balls: Ball[]): void {
+        balls.forEach(ball => {
+            let p = ball.phys;
+            p.vx *= 0.995;
+            p.vy *= 0.995;
+            ball.getSpeed();
+        });
+    }
+
     static collide(balls: Ball[]): number {
         let plist = balls.map(b => b.phys);
         let pairs = CollisionDetection.cellular(plist);
@@ -72,6 +90,8 @@ export class BallMath {
             balls[pair[1]].collided = true;
             balls[pair[0]].getSpeed();
             balls[pair[1]].getSpeed();
+            balls[pair[0]].expAndLevel();
+            balls[pair[1]].expAndLevel();
         });
         return pairs.length;
     }

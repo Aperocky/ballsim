@@ -12,15 +12,12 @@ function loadWidgets(sim: Sim): void {
     sim.show.createElements();
     addbtn.addEventListener("click", () => {
         sim.addBall();
-        sim.show.updateBallCount();
     });
     removebtn.addEventListener("click", () => {
         sim.removeBall();
-        sim.show.updateBallCount();
     });
     restartbtn.addEventListener("click", () => {
         sim.reset();
-        sim.show.updateBallCount();
     });
 }
 
@@ -32,6 +29,8 @@ export class ShowBiz {
     collisionCount: HTMLElement;
     fastestSpeed: HTMLElement;
     iterationCount: HTMLElement;
+    mostExperience: HTMLElement;
+    avgLevel: HTMLElement;
 
     constructor(sim: Sim) {
         this.sim = sim;
@@ -56,18 +55,17 @@ export class ShowBiz {
         this.iterationCount = this.createAndAttachTableRow("Iteration #", se);
         this.collisionCount = this.createAndAttachTableRow("Collision #", se);
         this.fastestSpeed = this.createAndAttachTableRow("Fastest Speed", se);
-        this.updateBallCount();
-    }
-
-    updateBallCount() {
-        let count = this.sim.balls.length;
-        this.ballCount.innerHTML = `${count}`;
+        this.mostExperience = this.createAndAttachTableRow("Most Exp", se);
+        this.avgLevel = this.createAndAttachTableRow("Avg Level", se);
     }
 
     update() {
-        this.fpsCounter.innerHTML = this.sim.fpsCounter.currFps.toFixed(0);
+        this.fpsCounter.innerHTML = this.sim.fpsCounter.currFps.toFixed(1);
         this.collisionCount.innerHTML = `${this.sim.collisionCount}`;
         this.iterationCount.innerHTML = `${this.sim.iterationCount}`;
         this.fastestSpeed.innerHTML = this.sim.fastest.toFixed(2);
+        this.mostExperience.innerHTML = this.sim.exptest.toFixed(0);
+        this.ballCount.innerHTML = `${this.sim.balls.length}`;
+        this.avgLevel.innerHTML = this.sim.avglevel.toFixed(2);
     }
 }

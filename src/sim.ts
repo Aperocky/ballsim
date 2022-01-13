@@ -3,6 +3,7 @@ import { BallMath } from './ball/ballmath';
 import * as Constant from './constants';
 import { ShowBiz } from './display';
 import { FpsCounter } from './util/fpsCounter';
+import { LEVELS } from './ball/levels';
 
 export class Sim {
 
@@ -11,6 +12,8 @@ export class Sim {
     show: ShowBiz;
     collisionCount: number;
     fastest: number;
+    exptest: number;
+    avglevel: number;
     iterationCount: number;
     fpsCounter: FpsCounter;
 
@@ -36,16 +39,25 @@ export class Sim {
     }
 
     step(): void {
-        this.ctx.fillStyle = '#AAAAAA';
+        this.ctx.fillStyle = '#cccccc';
         this.ctx.fillRect(0, 0, Constant.X_SIZE, Constant.Y_SIZE);
         BallMath.move(this.balls);
         this.collisionCount += BallMath.collide(this.balls);
+        if (this.avglevel == LEVELS.length - 1) {
+            BallMath.decline(this.balls);
+        }
         this.iterationCount++;
-        this.getFastest();
+        this.getData();
         this.draw(); // Resets collided flag, execute last
         this.fpsCounter.measure(this.iterationCount);
+        this.ballDeath()
         this.show.update();
         window.requestAnimationFrame(() => this.step());
+    }
+
+    ballDeath(): void {
+        // excessively hurt balls die.
+        this.balls = this.balls.filter(ball => ball.hurt < 200);
     }
 
 /*
@@ -72,12 +84,21 @@ export class Sim {
 /*
     Data meter
 */
-    getFastest(): void {
+    getData(): void {
         this.fastest = 0;
+        this.exptest = 0;
+        let levelsum = 0;
         this.balls.forEach(ball => {
             if (ball.speed > this.fastest) {
                 this.fastest = ball.speed;
             }
+            if (ball.exp > this.exptest) {
+                this.exptest = ball.exp;
+            }
+            levelsum += ball.level;
         });
+        if (this.balls.length > 0) {
+            this.avglevel = levelsum / this.balls.length;
+        }
     }
 }
